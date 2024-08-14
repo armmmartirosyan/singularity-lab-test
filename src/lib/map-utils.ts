@@ -43,43 +43,21 @@ export function highlightSelectedBuilding(
   mapRef: MapRef,
   building: GeoJSONFeature
 ) {
-  console.log({ building });
-
   if (!mapRef.current) return;
 
-  if (mapRef.current.getLayer("selected-building")) {
-    mapRef.current.removeLayer("selected-building");
-  }
+  mapRef.current.setPaintProperty("3d-buildings", "fill-extrusion-color", [
+    "case",
+    ["==", ["id"], building.id],
+    "#f00",
+    "#aaa",
+  ]);
 
-  mapRef.current.addLayer({
-    id: "selected-building",
-    source: "composite",
-    "source-layer": "building",
-    filter: ["==", "height", 6],
-    type: "fill-extrusion",
-    paint: {
-      "fill-extrusion-color": "#ff0000",
-      "fill-extrusion-height": [
-        "interpolate",
-        ["linear"],
-        ["zoom"],
-        15,
-        0,
-        15.05,
-        ["get", "height"],
-      ],
-      "fill-extrusion-base": [
-        "interpolate",
-        ["linear"],
-        ["zoom"],
-        15,
-        0,
-        15.05,
-        ["get", "min_height"],
-      ],
-      "fill-extrusion-opacity": 0.6,
-    },
-  });
+  mapRef.current.setPaintProperty("3d-buildings", "fill-extrusion-height", [
+    "case",
+    ["==", ["id"], building.id],
+    ["*", ["get", "height"], 2],
+    ["get", "height"],
+  ]);
 }
 
 export function applyHoverEvents(mapRef: MapRef) {
@@ -92,7 +70,7 @@ export function applyHoverEvents(mapRef: MapRef) {
   });
 }
 
-export function applyBuildingLabel(mapRef: MapRef) {
+export function addBuildingLabel(mapRef: MapRef) {
   if (mapRef.current?.getLayer("poi-label")) {
     mapRef.current.setLayoutProperty("poi-label", "visibility", "visible");
     mapRef.current.setPaintProperty("poi-label", "text-color", "#000000");
@@ -125,6 +103,8 @@ export async function apply3DBuildingClick(
       highlightSelectedBuilding(mapRef, building);
     }
   });
+
+  mapRef.current?.setPaintProperty;
 }
 
 export async function getAddressFromCoordinates({

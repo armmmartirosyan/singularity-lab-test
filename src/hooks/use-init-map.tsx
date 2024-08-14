@@ -8,7 +8,7 @@ import use3dBuildings from "./use-3d-buildings";
 import useMapStyle from "./use-map-style";
 import {
   add3DBuildings,
-  applyBuildingLabel,
+  addBuildingLabel,
   applyHoverEvents,
   apply3DBuildingClick,
 } from "@/lib/map-utils";
@@ -26,7 +26,7 @@ export default function useInitMap(
 
   use3dBuildings(mapRef);
 
-  const apply3DBuildingsOnInit = useCallback(() => {
+  const onMapLoad = useCallback(() => {
     if (
       is3DView &&
       mapRef.current &&
@@ -34,14 +34,11 @@ export default function useInitMap(
     ) {
       add3DBuildings(mapRef);
     }
-  }, [is3DView]);
 
-  const onMapLoad = useCallback(() => {
     apply3DBuildingClick(mapRef, changeSelectedBuilding);
     applyHoverEvents(mapRef);
-    apply3DBuildingsOnInit();
-    applyBuildingLabel(mapRef);
-  }, [apply3DBuildingsOnInit, changeSelectedBuilding]);
+    addBuildingLabel(mapRef);
+  }, [changeSelectedBuilding, is3DView]);
 
   useEffect(() => {
     if (!mapRef.current && mapContainerRef.current) {
