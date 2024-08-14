@@ -1,6 +1,7 @@
 import { Inter } from "next/font/google";
 import type { Metadata } from "next";
 import { ThemeProvider } from "@/components/theme-provider";
+import { type OnlyChildren } from "@/types";
 import { cn } from "@/lib/utils";
 import "./globals.css";
 
@@ -11,11 +12,7 @@ export const metadata: Metadata = {
   description: "This is a map application created with mapbox-gl api.",
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: Readonly<OnlyChildren>) {
   return (
     <html lang="en">
       <body

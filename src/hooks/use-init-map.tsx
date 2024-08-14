@@ -1,13 +1,21 @@
-import { useEffect, RefObject, useRef } from "react";
 import mapboxgl, { Map as MapboxMap } from "mapbox-gl";
-import useMapStyle from "./use-map-style";
-import use3dBuildings from "./use-3d-buildings";
-import { add3DBuildings } from "@/lib/map-utils";
 import { useSearchParams } from "next/navigation";
+import { useEffect, useRef } from "react";
+import { ChangeSelectedBuilding, MapContainerRef } from "@/types";
+import use3dBuildings from "./use-3d-buildings";
+import useMapStyle from "./use-map-style";
+import {
+  add3DBuildings,
+  getAddressFromCoordinates,
+  highlightSelectedBuilding,
+} from "@/lib/map-utils";
 
 mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_TOKEN || "";
 
-export default function useInitMap(mapContainerRef: RefObject<HTMLDivElement>) {
+export default function useInitMap(
+  mapContainerRef: MapContainerRef,
+  changeSelectedBuilding: ChangeSelectedBuilding
+) {
   const mapRef = useRef<MapboxMap | null>(null);
   const mapStyle = useMapStyle(mapRef);
   const searchParams = useSearchParams();
@@ -28,17 +36,21 @@ export default function useInitMap(mapContainerRef: RefObject<HTMLDivElement>) {
     });
 
     mapRef.current.on("load", () => {
-      mapRef.current!.on("click", "3d-buildings", (event) => {
+      mapRef.current!.on("click", "3d-buildings", async (event) => {
+        const coordinates = event.lngLat;
+
+        const address = await getAddressFromCoordinates(coordinates);
+
         const features = mapRef.current?.queryRenderedFeatures(event.point, {
           layers: ["3d-buildings"],
         });
+
         if (features && features.length > 0) {
           const building = features[0];
+          building.properties = { ...building.properties, address };
 
-          console.log({ building });
-
-          //   setSelectedBuilding(building);
-          //   highlightSelectedBuilding(building);
+          changeSelectedBuilding(building);
+          highlightSelectedBuilding(mapRef, building);
         }
       });
 
@@ -56,8 +68,7 @@ export default function useInitMap(mapContainerRef: RefObject<HTMLDivElement>) {
         !mapRef.current.getLayer("3d-buildings")
       ) {
         add3DBuildings(mapRef);
-        mapRef.current.setPitch(85);
       }
     });
-  }, [mapStyle, mapRef, mapContainerRef, is3DView]);
+  }, [mapStyle, mapRef, mapContainerRef, is3DView, changeSelectedBuilding]);
 }

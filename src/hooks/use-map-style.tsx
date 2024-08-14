@@ -1,14 +1,12 @@
 "use client";
 
-import { MutableRefObject, useEffect, useMemo } from "react";
-import { Map as MapboxMap } from "mapbox-gl";
+import { useEffect, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { useTheme } from "next-themes";
 import { DARK_MAP_STYLE, LIGHT_MAP_STYLE } from "@/constants";
+import { MapRef } from "@/types";
 
-export default function useMapStyle(
-  mapRef: MutableRefObject<MapboxMap | null>
-) {
+export default function useMapStyle(mapRef: MapRef) {
   const { theme } = useTheme();
   const router = useRouter();
 
