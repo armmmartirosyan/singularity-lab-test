@@ -18,5 +18,9 @@ export function Toggle3d() {
     router.push(pathname + "?" + params.toString());
   }, [searchParams, is3DView, router, pathname]);
 
-  return <Button onClick={toggle3D}>Toggle {is3DView ? "2D" : "3D"}</Button>;
+  return (
+    <Button onClick={toggle3D} variant="outline">
+      {is3DView ? "2D" : "3D"}
+    </Button>
+  );
 }

@@ -1,5 +1,5 @@
 import { GeoJSONFeature } from "mapbox-gl";
-import { GeolocationObject, MapRef } from "@/types";
+import { ChangeSelectedBuilding, GeolocationObject, MapRef } from "@/types";
 
 const ACCESS_TOKEN = process.env.NEXT_PUBLIC_MAPBOX_TOKEN || "";
 
@@ -79,6 +79,51 @@ export function highlightSelectedBuilding(
       ],
       "fill-extrusion-opacity": 0.6,
     },
+  });
+}
+
+export function applyHoverEvents(mapRef: MapRef) {
+  mapRef.current!.on("mouseenter", "3d-buildings", () => {
+    mapRef.current!.getCanvas().style.cursor = "pointer";
+  });
+
+  mapRef.current!.on("mouseleave", "3d-buildings", () => {
+    mapRef.current!.getCanvas().style.cursor = "";
+  });
+}
+
+export function applyBuildingLabel(mapRef: MapRef) {
+  if (mapRef.current?.getLayer("poi-label")) {
+    mapRef.current.setLayoutProperty("poi-label", "visibility", "visible");
+    mapRef.current.setPaintProperty("poi-label", "text-color", "#000000");
+  }
+
+  if (mapRef.current?.getLayer("place-label")) {
+    mapRef.current.setLayoutProperty("place-label", "visibility", "visible");
+    mapRef.current.setPaintProperty("place-label", "text-color", "#000000");
+  }
+}
+
+export async function apply3DBuildingClick(
+  mapRef: MapRef,
+  changeSelectedBuilding: ChangeSelectedBuilding
+) {
+  mapRef.current!.on("click", "3d-buildings", async (event) => {
+    const coordinates = event.lngLat;
+
+    const address = await getAddressFromCoordinates(coordinates);
+
+    const features = mapRef.current?.queryRenderedFeatures(event.point, {
+      layers: ["3d-buildings"],
+    });
+
+    if (features && features.length > 0) {
+      const building = features[0];
+      building.properties = { ...building.properties, address };
+
+      changeSelectedBuilding(building);
+      highlightSelectedBuilding(mapRef, building);
+    }
   });
 }
 

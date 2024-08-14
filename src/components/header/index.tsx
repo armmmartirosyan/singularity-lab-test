@@ -8,7 +8,7 @@ export function Header() {
       <Suspense>
         <Toggle3d />
       </Suspense>
-      <h1 className="text-forground">Singularity Lab Map</h1>
+      <h1 className="text-stone-950">Singularity Lab Map</h1>
       <ModeToggle />
     </div>
   );
