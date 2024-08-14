@@ -1,36 +1,151 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Next.js Mapbox Приложение
+
+Это Next.js приложение, которое интегрирует Mapbox для отображения интерактивной карты с различными функциями, такими как переключение 3D-зданий и отображение деталей зданий по щелчку. Проект создан с использованием TypeScript.
+
+## Функции
+
+- **Отображение карты**: Отображает карту Mapbox в приложении.
+- **Переключить 3D-здания**: Кнопка для включения и выключения 3D-зданий.
+- **Подробности здания**: Отображает подробную информацию о здании при щелчке.
+- **Цвет темы**: Пользователь может изменить цвет темы и одновременно дизайн карты.
+
+## Предпосылки
+
+- Node.js (версия 14.x или выше)
+- npm или Yarn
+- Учетная запись Mapbox с токеном доступа
+
+## Начиная
+
+### 1. Клонировать репозиторию
+
+```bash
+git clone https://github.com/armmmartirosyan/singularity-lab-test
+cd singularity-lab-test
+```
+
+### 2. Установить зависимости
+
+```bash
+npm install
+# или
+yarn install
+```
+
+### 3. Настройка переменных среды
+
+Создайте файл `.env.local` в корневом каталоге и добавьте свой токен доступа Mapbox:
+
+```bash
+NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN=your_mapbox_access_token
+```
+
+### 4. Запустите сервер разработки
+
+```bash
+npm run dev
+# или
+yarn dev
+```
+
+Откройте [http://localhost:3000](http://localhost:3000) в своем браузере, чтобы увидеть результат.
+
+## Использование
+
+### Переключить 3D-здания
+
+Нажмите кнопку «3D», чтобы включить или выключить 3D-вид зданий на карте.
+
+### Посмотреть подробности о здании
+
+Щелкните по любому зданию на 3D-карте, чтобы просмотреть его подробную информацию, такую ​​как высота и адрес.
+
+### Изменить цвет темы
+
+В правом верхнем углу вы можете увидеть значок солнца или луны в зависимости от вашей текущей темы. Нажав на него, вы увидите раскрывающийся список, в котором вы можете выбрать один из вариантов темы.
+
+## Структура проекта
+
+- **app/**: Страницы Next.js, включая главную страницу карты, корневой layout и глобальные стили.
+- **components/**: Содержит повторно используемые компоненты React.
+- **constants/**: Constant переменные для всего приложения.
+- **hooks/**: Пользовательские хуки React для использования некоторой логики.
+- **lib/**: Вспомогательные функции и помощники.
+- **types/**: Универсальные и повторно используемые типы.
+
+### In English
+
+# Next.js Mapbox Application
+
+This is a Next.js application that integrates Mapbox to display an interactive map with various features such as toggling 3D buildings and showing building details on click. The project is built using TypeScript.
+
+## Features
+
+- **Map Display**: Renders a Mapbox map in the application.
+- **3D Buildings Toggle**: A button to toggle 3D buildings on and off.
+- **Building Details**: Displays details of a building when it is clicked.
+- **Theme color**: The user can change the theme color and at the same time map design.
+
+## Prerequisites
+
+- Node.js (version 14.x or higher)
+- npm or Yarn
+- A Mapbox account with an access token
 
 ## Getting Started
 
-First, run the development server:
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/armmmartirosyan/singularity-lab-test
+cd singularity-lab-test
+```
+
+### 2. Install Dependencies
+
+```bash
+npm install
+# or
+yarn install
+```
+
+### 3. Set Up Environment Variables
+
+Create a `.env.local` file in the root directory and add your Mapbox access token:
+
+```bash
+NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN=your_mapbox_access_token
+```
+
+### 4. Run the Development Server
 
 ```bash
 npm run dev
 # or
 yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Usage
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+### Toggle 3D Buildings
 
-## Learn More
+Click the "3D" button to turn on or off the 3D view of buildings on the map.
 
-To learn more about Next.js, take a look at the following resources:
+### View Building Details
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Click on any building on the 3D map to view its details, such as height and address.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+### Change the theme color
 
-## Deploy on Vercel
+At the right top corner you can see the sun or moon icon based on your current theme. Clicking on it, appears a dropdown where you can select one of the theme options.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Project Structure
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- **app/**: Next.js pages, including the main map page, root layout and global styles.
+- **components/**: Contains reusable React components.
+- **constants/**: The constant variables for whole application.
+- **hooks/**: Custom React hooks for utilizing some logic.
+- **lib/**: Utility functions and helpers.
+- **types/**: Generic and reusable types.
